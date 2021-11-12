@@ -40,12 +40,18 @@ for i in range(nbrOfBlocs):
     bloc_coordinate_y = randrange(nbrOfBlocs)
     blocXIndex.append(bloc_coordinate_x)
     blocYIndex.append(bloc_coordinate_y)
+    print(letterAxis[blocXIndex[i]], blocYIndex[i])
 
-current_state = [' ']
-separator = ['+']
+
+
+
+current_state = []
+separator = [' +']
+letterSep = ['  ']
 for i in range(boardsize):
-    current_state.append(letterAxis[i])
+    letterSep.append(letterAxis[i])
     separator.append('-')
+current_state.append(letterSep)
 current_state.append(separator)
 
 bloc_placed = False
@@ -62,11 +68,14 @@ for y in range(boardsize):
             break
         else:
             row.append('.')
+    current_state.append(row)
+
+print(current_state)
 
 print("Drawing Board")
 print()
-for y in range(boardsize):
-    for x in range(boardsize):
+for x in range(boardsize):
+    for y in range(boardsize):
         print(F'{current_state[x][y]}', end="")
     print()
 print()
