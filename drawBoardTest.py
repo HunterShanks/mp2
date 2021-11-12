@@ -1,7 +1,9 @@
+import random
 from random import randrange
 
 letterAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
+# Generating board size
 while True:
     try:
         boardsize = int(input('enter size of the board: '))
@@ -15,6 +17,7 @@ while True:
             print("Invalid Input")
             continue
 
+# Generating number of blocs
 while True:
     try:
         nbrOfBlocs = int(input('enter number of blocs: '))
@@ -28,11 +31,13 @@ while True:
             print("Invalid Input. Too many blocs")
             continue
 
+
+# Generating Blocs
+
     # FOR GAMETRACE 4435 AND 4431
     # blocXIndex = [0, 0, 4, 4]
     # blockYIndex = [0, 4, 0, 4]
 
-print("Generating bloc coordinates.")
 blocXIndex = []
 blocYIndex = []
 for i in range(nbrOfBlocs):
@@ -40,8 +45,8 @@ for i in range(nbrOfBlocs):
     bloc_coordinate_y = randrange(boardsize)
     blocXIndex.append(bloc_coordinate_x)
     blocYIndex.append(bloc_coordinate_y)
-    print(letterAxis[blocXIndex[i]], blocYIndex[i])
 
+# Generating board axis
 current_state = []
 letter_separator = ['  ']
 separator = [' +']
@@ -52,6 +57,7 @@ for i in range(boardsize):
 current_state.append(letter_separator)
 current_state.append(separator)
 
+# Populating board array
 bloc_placed = False
 for y in range(boardsize):
     row = [str(y) + '|']
@@ -68,12 +74,11 @@ for y in range(boardsize):
             row.append('.')
     current_state.append(row)
 
-print(current_state)
-
-print("Drawing Board")
+# Drawing board
+print("Board Game")
 print()
-for x in range(boardsize):
-    for y in range(boardsize):
+for x in range(boardsize+2):
+    for y in range(boardsize+1):
         print(F'{current_state[x][y]}', end="")
     print()
 print()
