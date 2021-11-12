@@ -1,6 +1,7 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
 
 import time
+from random import randrange
 
 class Game:
 	MINIMAX = 0
@@ -13,9 +14,76 @@ class Game:
 		self.recommend = recommend
 		
 	def initialize_game(self):
-		self.current_state = [['.','.','.'],
-							  ['.','.','.'],
-							  ['.','.','.']]
+		numberAxis = [0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9]
+		letterAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+		while True:
+			try:
+				boardsize = int(input('enter size of the board: '))
+			except ValueError:
+				print("Invalid Input.")
+				continue
+			else:
+				if 3 <= boardsize <= 10:
+					break
+				else:
+					print("Invalid Input")
+					continue
+
+		while True:
+			try:
+				nbrOfBlocs = int(input('enter number of blocs: '))
+			except ValueError:
+				print("Invalid Input.")
+				continue
+			else:
+				if 0 <= nbrOfBlocs <= 2*boardsize:
+					break
+				else:
+					print("Invalid Input. Too many blocs")
+					continue
+
+		# FOR GAMETRACE 4435 AND 4431
+		# blocXIndex = [0, 0, 4, 4]
+		# blockYIndex = [0, 4, 0, 4]
+
+		print("Generating bloc coordinates.")
+		blocXIndex = []
+		blocYIndex = []
+		for i in range(nbrOfBlocs):
+			blocCoordinateX = randrange(nbrOfBlocs)
+			blocCoordinateY = randrange(nbrOfBlocs)
+			blocXIndex.append(blocCoordinateX)
+			blocYIndex.append(blocCoordinateY)
+
+		self.current_state = [' ']
+		separator = ['+']
+		for i in range(boardsize):
+			self.current_state.append(letterAxis[i])
+			separator.append('-')
+		self.current_state.append(separator)
+
+		bloc_placed = False
+		for y in range(boardsize):
+			row = [y + "|"]
+			for x in range(boardsize):
+				for i in range(nbrOfBlocs):
+					if blocXIndex[i] == x and blocYIndex == y:
+						row.append('*')
+						bloc_placed = True
+						break
+				if bloc_placed:
+					bloc_placed = False
+					break
+				else:
+					row.append('.')
+
+
+		#self.current_state = [['.','.','.'],
+		#					  ['.','.','.'],
+		#				  ['.','.','.']]
+
+
+
 		# Player X always plays first
 		self.player_turn = 'X'
 
