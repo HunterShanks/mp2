@@ -8,74 +8,84 @@ class Game:
 	ALPHABETA = 1
 	HUMAN = 2
 	AI = 3
-	
+
 	def __init__(self, recommend = True):
 		self.initialize_game()
 		self.recommend = recommend
-		
+
 	def initialize_game(self):
-		numberAxis = [0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9]
 		letterAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+		# Generating board size
 		while True:
-			try:
-				boardsize = int(input('enter size of the board: '))
-			except ValueError:
-				print("Invalid Input.")
-				continue
-			else:
-				if 3 <= boardsize <= 10:
-					break
-				else:
-					print("Invalid Input")
-					continue
+		    try:
+		        self.boardsize = int(input('enter size of the board: '))
+		    except ValueError:
+		        print("Invalid Input.")
+		        continue
+		    else:
+		        if 3 <= self.boardsize <= 10:
+		            break
+		        else:
+		            print("Invalid Input")
+		            continue
 
+		# Generating number of blocs
 		while True:
-			try:
-				nbrOfBlocs = int(input('enter number of blocs: '))
-			except ValueError:
-				print("Invalid Input.")
-				continue
-			else:
-				if 0 <= nbrOfBlocs <= 2*boardsize:
-					break
-				else:
-					print("Invalid Input. Too many blocs")
-					continue
+		    try:
+		        nbrOfBlocs = int(input('enter number of blocs: '))
+		    except ValueError:
+		        print("Invalid Input.")
+		        continue
+		    else:
+		        if 0 <= nbrOfBlocs <= 2 * self.boardsize:
+		            break
+		        else:
+		            print("Invalid Input. Too many blocs")
+		            continue
 
-		# FOR GAMETRACE 4435 AND 4431
-		# blocXIndex = [0, 0, 4, 4]
-		# blockYIndex = [0, 4, 0, 4]
 
-		print("Generating bloc coordinates.")
+		# Generating Blocs
+
+		    # FOR GAMETRACE 4435 AND 4431
+		    # blocXIndex = [0, 0, 4, 4]
+		    # blockYIndex = [0, 4, 0, 4]
+
 		blocXIndex = []
 		blocYIndex = []
 		for i in range(nbrOfBlocs):
-			blocCoordinateX = randrange(nbrOfBlocs)
-			blocCoordinateY = randrange(nbrOfBlocs)
-			blocXIndex.append(blocCoordinateX)
-			blocYIndex.append(blocCoordinateY)
+		    bloc_coordinate_x = randrange(self.boardsize)
+		    bloc_coordinate_y = randrange(self.boardsize)
+		    blocXIndex.append(bloc_coordinate_x)
+		    blocYIndex.append(bloc_coordinate_y)
 
-		self.current_state = [' ']
-		separator = ['+']
-		for i in range(boardsize):
-			self.current_state.append(letterAxis[i])
-			separator.append('-')
+		# Generating board axis
+		self.current_state = []
+		letter_separator = ['  ']
+		separator = [' +']
+		for i in range(self.boardsize):
+		    letter_separator.append(letterAxis[i])
+		    separator.append('-')
+
+		self.current_state.append(letter_separator)
 		self.current_state.append(separator)
 
+		# Populating board array
 		bloc_placed = False
-		for y in range(boardsize):
-			row = [y + "|"]
-			for x in range(boardsize):
-				for i in range(nbrOfBlocs):
-					if blocXIndex[i] == x and blocYIndex == y:
-						row.append('*')
-						bloc_placed = True
-						break
-				if bloc_placed:
-					bloc_placed = False
-					break
-				else:
-					row.append('.')
+		for y in range(self.boardsize):
+		    row = [str(y) + '|']
+		    for x in range(self.boardsize):
+		        for i in range(nbrOfBlocs):
+		            if blocXIndex[i] == x and blocYIndex[i] == y:
+		                row.append('*')
+		                bloc_placed = True
+		                break
+
+		        if bloc_placed:
+		            bloc_placed = False
+		        else:
+		            row.append('.')
+		    self.current_state.append(row)
 
 
 		#self.current_state = [['.','.','.'],
@@ -89,12 +99,12 @@ class Game:
 
 	def draw_board(self):
 		print()
-		for y in range(0, 3):
-			for x in range(0, 3):
-				print(F'{self.current_state[x][y]}', end="")
-			print()
+		for x in range(self.boardsize+2):
+		    for y in range(self.boardsize+1):
+		        print(F'{self.current_state[x][y]}', end="")
+		    print()
 		print()
-		
+
 	def is_valid(self, px, py):
 		if px < 0 or px > 2 or py < 0 or py > 2:
 			return False
@@ -241,7 +251,7 @@ class Game:
 							x = i
 							y = j
 					self.current_state[i][j] = '.'
-					if max: 
+					if max:
 						if value >= beta:
 							return (value, x, y)
 						if value > alpha:
@@ -294,4 +304,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
