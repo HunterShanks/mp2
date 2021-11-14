@@ -48,9 +48,9 @@ while True:
 
 # Generating Blocs
 
-    # FOR GAMETRACE 4435 AND 4431
-    # blocXIndex = [0, 0, 4, 4]
-    # blockYIndex = [0, 4, 0, 4]
+# FOR GAMETRACE 4435 AND 4431
+# blocXIndex = [0, 0, 4, 4]
+# blockYIndex = [0, 4, 0, 4]
 
 blocXIndex = []
 blocYIndex = []
@@ -90,7 +90,6 @@ for y in range(boardsize):
 
 # ---------------------------------------------------------------------------------------
 
-
 # Testing purposes
 # Checking horizontal win conditions 4x4
 #current_state[3][1] = 'X'
@@ -99,50 +98,107 @@ for y in range(boardsize):
 #current_state[3][4] = 'X'
 
 # Vertical win conditions 4x4
-current_state[2][3] = 'O'
-current_state[3][3] = 'O'
-current_state[4][3] = 'O'
-current_state[5][3] = 'O'
+#current_state[2][3] = 'O'
+#current_state[3][3] = 'O'
+#current_state[4][3] = 'O'
+#current_state[5][3] = 'O'
 
-# Diagonal win conditions 4x4
+# Main diagonal win conditions 4x4
 #current_state[2][1] = 'X'
 #current_state[3][2] = 'X'
 #current_state[4][3] = 'X'
 #current_state[5][4] = 'X'
 
+# diagonal 4x4 - put win condition 3
+#current_state[2][2] = 'X'
+#current_state[3][3] = 'X'
+#current_state[4][4] = 'X'
+
+# Secondary diagonal win conditions
+#current_state[5][1] = 'X'
+#current_state[4][2] = 'X'
+#current_state[3][3] = 'X'
+#current_state[2][4] = 'X'
+
+# secondary diagonal - put win condtion 3
+current_state[5][2] = 'O'
+current_state[4][3] = 'O'
+current_state[3][4] = 'O'
+
 # def is_end(self): ---------------------------------------------------------------------
+# Change most breaks to return afterwards / All prints will become returns.
 # Horizontal check
-for y in range(boardsize+2):
-    for x in range(boardsize+1):
-        if current_state[y][x] != '-' and current_state[y][x] != '.' and x+1 <= boardsize and current_state[y][x] == current_state[y][x+1]:
+for y in range(boardsize + 2):
+    for x in range(boardsize + 1):
+        if current_state[y][x] != '-' and current_state[y][x] != '.' and x + 1 <= boardsize and current_state[y][x] == \
+                current_state[y][x + 1]:
             horizontalWinCount += 1
-            if horizontalWinCount+1 == win_condition:
+            if horizontalWinCount + 1 == win_condition:
                 print(current_state[y][x], "horizontal win")  # change to return in skeleton
                 break
     horizontalWinCount = 0
 
 # Vertical check
-for x in range(boardsize+1):
-    for y in range(boardsize+2):
-        if current_state[y][x] != '.' and y+1 <= boardsize+1 and current_state[y][x] == current_state[y+1][x]:
+for x in range(boardsize + 1):
+    for y in range(boardsize + 2):
+        if current_state[y][x] != '.' and y + 1 <= boardsize + 1 and current_state[y][x] == current_state[y + 1][x]:
             verticalWinCount += 1
-            if verticalWinCount+1 == win_condition:
+            if verticalWinCount + 1 == win_condition:
                 print(current_state[y][x], "vertical win")
                 break
     verticalWinCount = 0
 
-# Diagonal check
+# Main diagonal check
+checkX = 1
+checkY = 2
+mainDiagonalWinCount = 0
+for i in range(boardsize):
+    if current_state[checkY][checkX] != '.' and checkX + 1 <= boardsize and checkY + 1 <= boardsize + 1 and \
+            current_state[checkY][checkX] == current_state[checkY + 1][checkX + 1]:
+        mainDiagonalWinCount += 1
+        if mainDiagonalWinCount + 1 == win_condition:
+            print(current_state[checkY][checkX], "Main diagonal win")
+            break
+        checkX += i
+        checkY += i
+
+# Secondary diagonal check
+checkX = 1
+checkY = boardsize + 1
+secondaryDiagonalWinCount = 0
+for i in range(boardsize):
+    if current_state[checkY][checkX] != '.' and checkX + 1 <= boardsize and checkY - 1 >= 0 and current_state[checkY][checkX] == current_state[checkY - 1][checkX + 1]:
+        secondaryDiagonalWinCount += 1
+        if secondaryDiagonalWinCount + 1 == win_condition:
+            print(current_state[checkY][checkX], "Secondary diagonal win")
+            break
+        checkX += i
+        checkY -= i
+
+# main diagonal in middle of board must be considered
+
+
+# secondary diagonal in middle of board must be considered
+
+
+
+# Check full board to return a tie - must be placed at the very end
+#for y in range(boardsize + 2):
+#    for x in range(boardsize + 1):
+#        if (current_state[y][x] == '.'):
+#            print("None")
+#            break
 
 #  ---------------------------------------------------------------------------------------------------------
 
-# [y] WILL ALWAYS HAVE +2 [x] WILL ALWAYS HAVE +1
-#print(current_state)
+# [y] will always havce boardsize+2 [x] will always have boardsize+1
+# print(current_state)
 
 # def draw_board(self): -------------------------------------------------------------------
-print("Board Game")
+
 print()
-for y in range(boardsize+2):
-    for x in range(boardsize+1):
+for y in range(boardsize + 2):
+    for x in range(boardsize + 1):
         print(F'{current_state[y][x]}', end="")
     print()
 print()
