@@ -175,10 +175,20 @@ for i in range(boardsize):
         checkX += i
         checkY -= i
 
-# main diagonal in middle of board must be considered
+# diagonal check
+diagonalCheck = 0
+for y in range(boardsize + 2):
+    for x in range(boardsize + 1):
+        if current_state[y][x] == 'X' or current_state[y][x] == 'O':  
+            for i in range(win_condition):
+                if x + i <= boardsize and y + i <= boardsize + 1 and (current_state[y][x] == current_state[y+i][x+i] or current_state[y][x] == current_state[y-i][x-i]):
+                    diagonalCheck += 1
+                    if diagonalCheck == win_condition:
+                        print(current_state[y][x], "diagonal win")
+                        break
 
 
-# secondary diagonal in middle of board must be considered
+
 
 
 
