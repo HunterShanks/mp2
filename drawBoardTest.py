@@ -1,6 +1,7 @@
 import random
 from random import randrange
 
+# def initialize_game(self): --------------------------------------------------------
 letterAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 # Generating board size
@@ -28,9 +29,22 @@ while True:
         if 0 <= nbrOfBlocs <= 2 * boardsize:
             break
         else:
-            print("Invalid Input. Too many blocs")
+            print("Invalid Input.")
             continue
 
+# Generating win condition
+while True:
+    try:
+        win_condition = int(input('enter win condition: '))
+    except ValueError:
+        print("Invalid Input.")
+        continue
+    else:
+        if 3 <= win_condition <= boardsize:
+            break
+        else:
+            print("Invalid Input.")
+            continue
 
 # Generating Blocs
 
@@ -74,11 +88,63 @@ for y in range(boardsize):
             row.append('.')
     current_state.append(row)
 
-# Drawing board
+# ---------------------------------------------------------------------------------------
+
+
+# Testing purposes
+# Checking horizontal win conditions 4x4
+#current_state[3][1] = 'X'
+#current_state[3][2] = 'X'
+#current_state[3][3] = 'X'
+#current_state[3][4] = 'X'
+
+# Vertical win conditions 4x4
+current_state[2][3] = 'O'
+current_state[3][3] = 'O'
+current_state[4][3] = 'O'
+current_state[5][3] = 'O'
+
+# Diagonal win conditions 4x4
+#current_state[2][1] = 'X'
+#current_state[3][2] = 'X'
+#current_state[4][3] = 'X'
+#current_state[5][4] = 'X'
+
+# def is_end(self): ---------------------------------------------------------------------
+# Horizontal check
+for y in range(boardsize+2):
+    for x in range(boardsize+1):
+        if current_state[y][x] != '-' and current_state[y][x] != '.' and x+1 <= boardsize and current_state[y][x] == current_state[y][x+1]:
+            horizontalWinCount += 1
+            if horizontalWinCount+1 == win_condition:
+                print(current_state[y][x], "horizontal win")  # change to return in skeleton
+                break
+    horizontalWinCount = 0
+
+# Vertical check
+for x in range(boardsize+1):
+    for y in range(boardsize+2):
+        if current_state[y][x] != '.' and y+1 <= boardsize+1 and current_state[y][x] == current_state[y+1][x]:
+            verticalWinCount += 1
+            if verticalWinCount+1 == win_condition:
+                print(current_state[y][x], "vertical win")
+                break
+    verticalWinCount = 0
+
+# Diagonal check
+
+#  ---------------------------------------------------------------------------------------------------------
+
+# [y] WILL ALWAYS HAVE +2 [x] WILL ALWAYS HAVE +1
+#print(current_state)
+
+# def draw_board(self): -------------------------------------------------------------------
 print("Board Game")
 print()
-for x in range(boardsize+2):
-    for y in range(boardsize+1):
-        print(F'{current_state[x][y]}', end="")
+for y in range(boardsize+2):
+    for x in range(boardsize+1):
+        print(F'{current_state[y][x]}', end="")
     print()
 print()
+
+# ----------------------------------------------------------------------------------------
