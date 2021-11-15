@@ -1,6 +1,6 @@
 import time
+import os
 from random import randrange
-
 
 class Game:
     MINIMAX = 0
@@ -119,6 +119,26 @@ class Game:
             else:
                 print('The move is not valid! Try again.')
 
+    # def player_input(self):
+        # hard coded - change
+        # self.current_state[3][1] = 'X'
+        # self.current_state[3][2] = 'X'
+        # self.current_state[3][3] = 'X'
+        # self.current_state[3][4] = 'X'
+
+        # # HARD CODED TIE 3x3
+        # self.current_state[2][1] = 'O'
+        # self.current_state[2][2] = 'X'
+        # self.current_state[2][3] = 'O'
+        # self.current_state[3][1] = 'O'
+        # self.current_state[3][2] = 'X'
+        # self.current_state[3][3] = 'O'
+        # self.current_state[4][1] = 'X'
+        # self.current_state[4][2] = 'O'
+        # self.current_state[4][3] = 'X'
+
+
+
     def draw_board(self):
         print()
         for y in range(self.boardsize + 2):
@@ -127,6 +147,92 @@ class Game:
             print()
         print()
 
+    # def horizontalCheck(self):
+    #     # Horizontal check
+    #     for y in range(self.boardsize + 2):
+    #         for x in range(self.boardsize + 1):
+    #             if self.current_state[y][x] != '-' and self.current_state[y][x] != '.' and x + 1 <= self.boardsize and self.current_state[y][x] == self.current_state[y][x + 1]:
+    #                 horizontalWinCount += 1
+    #                 print("horizontal match found")
+    #                 if horizontalWinCount + 1 == self.win_condition:
+    #                     print(self.current_state[y][x], "Horizontal win")
+    #                     return True
+    #                     # return self.current_state[y][x]
+    #         horizontalWinCount = 0
+    #     return False
+    #
+    # def verticalCheck(self):
+    #     # Vertical check
+    #     for x in range(self.boardsize + 1):
+    #         for y in range(self.boardsize + 2):
+    #             if self.current_state[y][x] != '.' and y + 1 <= self.boardsize + 1 and self.current_state[y][x] == self.current_state[y + 1][x]:
+    #                 verticalWinCount += 1
+    #                 print("vertical match found")
+    #                 if verticalWinCount + 1 == self.win_condition:
+    #                     print(self.current_state[y][x], "Vertical win")
+    #                     return True
+    #                     # return self.current_state[y][x]
+    #         verticalWinCount = 0
+    #
+    # def mainDiagCheck(self):
+    #     # Main diagonal check
+    #     checkX = 1
+    #     checkY = 2
+    #     mainDiagonalWinCount = 0
+    #     for i in range(self.boardsize):
+    #         if self.current_state[checkY][
+    #             checkX] != '.' and checkX + 1 <= self.boardsize and checkY + 1 <= self.boardsize + 1 and self.current_state[checkY][checkX] == self.current_state[checkY + 1][checkX + 1]:
+    #             mainDiagonalWinCount += 1
+    #             print("main diagonal match found")
+    #             if mainDiagonalWinCount + 1 == self.win_condition:
+    #                 print(self.current_state[checkY][checkX], "Main diagonal win")
+    #                 return True
+    #                 # return self.current_state[checkY][checkX]
+    #             checkX += i
+    #             checkY += i
+    #
+    # def secDiagCheck(self):
+    #     # Secondary diagonal check
+    #     checkX = 1
+    #     checkY = self.boardsize + 1
+    #     secondaryDiagonalWinCount = 0
+    #     for i in range(self.boardsize):
+    #         if self.current_state[checkY][checkX] != '.' and checkX + 1 <= self.boardsize and checkY - 1 >= 0 and self.current_state[checkY][checkX] == self.current_state[checkY - 1][checkX + 1]:
+    #             secondaryDiagonalWinCount += 1
+    #             print("secondary diagonal match found")
+    #             if secondaryDiagonalWinCount + 1 == self.win_condition:
+    #                 print(self.current_state[checkY][checkX], "Secondary diagonal win")
+    #                 return True
+    #                 # return self.current_state[checkY][checkX]
+    #             checkX += i
+    #             checkY -= i
+    #
+    # def diagCheck(self):
+    #     # diagonal check
+    #     diagonalCheck = 0
+    #     for y in range(self.boardsize + 2):
+    #         for x in range(self.boardsize + 1):
+    #             if self.current_state[y][x] == 'X' or self.current_state[y][x] == 'O':
+    #                 for i in range(self.win_condition):
+    #                     if x + i <= self.boardsize and y + i <= self.boardsize + 1 and (
+    #                             self.current_state[y][x] == self.current_state[y + i][x + i] or self.current_state[y][x] == self.current_state[y - i][x - i]):
+    #                         diagonalCheck += 1
+    #                         print("diagonal match found")
+    #                         if diagonalCheck == self.win_condition:
+    #                             print(self.current_state[y][x], "diagonal win")
+    #                             return True
+    #                             # return self.current_state[y][x]
+    #                     else:
+    #                         break
+    # def is_empty(self):
+    #     # Check if empty
+    #     for y in range(self.boardsize + 2):
+    #         for x in range(self.boardsize + 1):
+    #             if (self.current_state[y][x] == '.'):
+    #                 return True
+    #     # it's a tie
+    #     return False
+
     def is_end(self):
         # Horizontal check
         for y in range(self.boardsize + 2):
@@ -134,6 +240,7 @@ class Game:
                 if self.current_state[y][x] != '-' and self.current_state[y][x] != '.' and x + 1 <= self.boardsize and self.current_state[y][x] == self.current_state[y][x + 1]:
                     horizontalWinCount += 1
                     if horizontalWinCount + 1 == self.win_condition:
+                        print(self.current_state[y][x], "Horizontal win")
                         return self.current_state[y][x]
             horizontalWinCount = 0
 
@@ -143,47 +250,58 @@ class Game:
                 if self.current_state[y][x] != '.' and y + 1 <= self.boardsize + 1 and self.current_state[y][x] == self.current_state[y + 1][x]:
                     verticalWinCount += 1
                     if verticalWinCount + 1 == self.win_condition:
+                        print(self.current_state[y][x], "Vertical win")
                         return self.current_state[y][x]
             verticalWinCount = 0
 
         # Main diagonal check
         checkX = 1
         checkY = 2
+        x = checkX
+        y = checkY
         mainDiagonalWinCount = 0
         for i in range(self.boardsize):
             if self.current_state[checkY][
-                checkX] != '.' and checkX + 1 <= self.boardsize and checkY + 1 <= self.boardsize + 1 and self.current_state[checkY][checkX] == self.current_state[checkY + 1][checkX + 1]:
+                checkX] != '.' and checkX + 1 <= self.boardsize and checkY + 1 <= self.boardsize + 1 and self.current_state[checkY][checkX] == self.current_state[y + 1][x + 1]:
                 mainDiagonalWinCount += 1
                 if mainDiagonalWinCount + 1 == self.win_condition:
+                    print(self.current_state[checkY][checkX], "Main diagonal win")
                     return self.current_state[checkY][checkX]
-                checkX += i
-                checkY += i
+                x += i
+                y += i
 
         # Secondary diagonal check
         checkX = 1
         checkY = self.boardsize + 1
+        x = checkX
+        y = checkY
         secondaryDiagonalWinCount = 0
         for i in range(self.boardsize):
-            if self.current_state[checkY][checkX] != '.' and checkX + 1 <= self.boardsize and checkY - 1 >= 0 and self.current_state[checkY][checkX] == self.current_state[checkY - 1][checkX + 1]:
+            if self.current_state[checkY][checkX] != '.' and x + 1 <= self.boardsize and y - 1 >= 0 and self.current_state[checkY][checkX] == self.current_state[y - 1][x + 1]:
                 secondaryDiagonalWinCount += 1
                 if secondaryDiagonalWinCount + 1 == self.win_condition:
+                    print(self.current_state[checkY][checkX], "Secondary diagonal win")
                     return self.current_state[checkY][checkX]
-                checkX += i
-                checkY -= i
+                x += i
+                y -= i
 
         # diagonal check
         diagonalCheck = 0
         for y in range(self.boardsize + 2):
             for x in range(self.boardsize + 1):
                 if self.current_state[y][x] == 'X' or self.current_state[y][x] == 'O':
+                    checkX = x
+                    checkY = y
                     for i in range(self.win_condition):
                         if x + i <= self.boardsize and y + i <= self.boardsize + 1 and (
-                                self.current_state[y][x] == self.current_state[y + i][x + i] or self.current_state[y][
-                            x] ==
-                                self.current_state[y - i][x - i]):
+                                self.current_state[checkY][checkX] == self.current_state[y + i][x + i] or self.current_state[checkY][checkX] == self.current_state[y - i][x - i]):
                             diagonalCheck += 1
                             if diagonalCheck == self.win_condition:
+                                print(self.current_state[y][x], "diagonal win")
                                 return self.current_state[y][x]
+                        else:
+                            diagonalCheck = 0
+                            return None
 
         # Check if empty
         for y in range(self.boardsize + 2):
@@ -212,13 +330,14 @@ class Game:
             self.player_turn = 'X'
         return self.player_turn
 
-    def minimax(self, max=False):
+    def minimax(self, max=False, totalTime=0):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
         # -1 - win for 'X'
         # 0  - a tie
         # 1  - loss for 'X'
         # We're initially setting it to 2 or -2 as worse than the worst case:
+        start = time.time()
         value = 2
         if max:
             value = -2
@@ -233,31 +352,36 @@ class Game:
             return (0, x, y)
         for i in range(self.boardsize):
             for j in range(self.boardsize):
-                if self.current_state[i][j] == '.':
-                    if max:
-                        self.current_state[i][j] = 'O'
-                        (v, _, _) = self.minimax(max=False)
-                        if v > value:
-                            value = v
-                            x = i
-                            y = j
-                    else:
-                        self.current_state[i][j] = 'X'
-                        (v, _, _) = self.minimax(max=True)
-                        if v < value:
-                            value = v
-                            x = i
-                            y = j
-                    self.current_state[i][j] = '.'
+                curr = time.time() - start
+                if curr <= totalTime:
+                    if self.current_state[i][j] == '.':
+                        if max:
+                            self.current_state[i][j] = 'O'
+                            (v, _, _) = self.minimax(max=False)
+                            if v > value:
+                                value = v
+                                x = i
+                                y = j
+                        else:
+                            self.current_state[i][j] = 'X'
+                            (v, _, _) = self.minimax(max=True)
+                            if v < value:
+                                value = v
+                                x = i
+                                y = j
+                        self.current_state[i][j] = '.'
+                # else:
+                #     return (value, x, y)
         return (value, x, y)
 
-    def alphabeta(self, alpha=-2, beta=2, max=False):
+    def alphabeta(self, alpha=-2, beta=2, max=False, totalTime=0):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
         # -1 - win for 'X'
         # 0  - a tie
         # 1  - loss for 'X'
         # We're initially setting it to 2 or -2 as worse than the worst case:
+        start = time.time()
         value = 2
         if max:
             value = -2
@@ -272,35 +396,39 @@ class Game:
             return (0, x, y)
         for i in range(self.boardsize):
             for j in range(self.boardsize):
-                if self.current_state[i][j] == '.':
-                    if max:
-                        self.current_state[i][j] = 'O'
-                        (v, _, _) = self.alphabeta(alpha, beta, max=False)
-                        if v > value:
-                            value = v
-                            x = i
-                            y = j
-                    else:
-                        self.current_state[i][j] = 'X'
-                        (v, _, _) = self.alphabeta(alpha, beta, max=True)
-                        if v < value:
-                            value = v
-                            x = i
-                            y = j
-                    self.current_state[i][j] = '.'
-                    if max:
-                        if value >= beta:
-                            return (value, x, y)
-                        if value > alpha:
-                            alpha = value
-                    else:
-                        if value <= alpha:
-                            return (value, x, y)
-                        if value < beta:
-                            beta = value
+                curr = time.time() - start
+                if curr <= totalTime:
+                    if self.current_state[i][j] == '.':
+                        if max:
+                            self.current_state[i][j] = 'O'
+                            (v, _, _) = self.alphabeta(alpha, beta, max=False)
+                            if v > value:
+                                value = v
+                                x = i
+                                y = j
+                        else:
+                            self.current_state[i][j] = 'X'
+                            (v, _, _) = self.alphabeta(alpha, beta, max=True)
+                            if v < value:
+                                value = v
+                                x = i
+                                y = j
+                        self.current_state[i][j] = '.'
+                        if max:
+                            if value >= beta:
+                                return (value, x, y)
+                            if value > alpha:
+                                alpha = value
+                        else:
+                            if value <= alpha:
+                                return (value, x, y)
+                            if value < beta:
+                                beta = value
+                else:
+                    return (value, x, y)
         return (value, x, y)
 
-    def play(self, algo=None,player_x=None,player_o=None):
+    def play(self, algo=None,player_x=None,player_o=None, t=0):
         if algo == None or algo == False:
             algo = self.ALPHABETA
         if algo == True:
@@ -320,14 +448,14 @@ class Game:
             start = time.time()
             if algo == self.MINIMAX:
                 if self.player_turn == 'X':
-                    (_, x, y) = self.minimax(max=False)
+                    (_, x, y) = self.minimax(max=False, totalTime=t)
                 else:
-                    (_, x, y) = self.minimax(max=True)
+                    (_, x, y) = self.minimax(max=True, totalTime=t)
             else:  # algo == self.ALPHABETA
                 if self.player_turn == 'X':
-                    (m, x, y) = self.alphabeta(max=False)
+                    (m, x, y) = self.alphabeta(max=False, totalTime=t)
                 else:
-                    (m, x, y) = self.alphabeta(max=True)
+                    (m, x, y) = self.alphabeta(max=True, totalTime=t)
             end = time.time()
 
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (
@@ -337,8 +465,13 @@ class Game:
                 print(F'Evaluation time: {round(end - start, 7)}s')
                 print(F'Player {self.player_turn} under AI control plays: x = {x-2}, y = {self.LETTERS[y-1]}')
             self.current_state[x][y] = self.player_turn
+            print(self.current_state)
             self.switch_player()
 
+#boardsize=n, nbrOfBlocs=b, win_condition=s, totalTime=t
+# def trace(cmd, n, b, s, t):
+#     with open('output/gameTrace-' + n + '' + b + ''s + '' + t + '.txt', 'w+', encoding='utf-8') as gameTrace:
+#         os.system(cmd)
 
 def main():
     while True:
@@ -371,15 +504,30 @@ def main():
                 print("Invalid Input")
                 continue
 
+    userTime = 0
+    while True:
+        try:
+            userTime = int(input('What is the time constraint (1 - 5 seconds)?\n'))
+        except ValueError:
+                print("Invalid Input.\n")
+                continue
+        else:
+            if 1 <= userTime <= 5:
+                break
+            else:
+                print("Invalid Input")
+                continue
+
     g = Game()
     if mode == 1:
-        g.play(algo=Game.ALPHABETA,player_x=Game.HUMAN,player_o=Game.HUMAN)
+        g.play(algo=Game.ALPHABETA,player_x=Game.HUMAN,player_o=Game.HUMAN, t=userTime)
+        # g.trace()
     elif mode == 2:
-        g.play(algo=Game.MINIMAX,player_x=Game.HUMAN,player_o=Game.AI)
+        g.play(algo=Game.MINIMAX,player_x=Game.HUMAN,player_o=Game.AI, t=userTime)
     elif mode == 3:
-        g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
+        g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN, t=userTime)
     elif mode == 4:
-        g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI)
+        g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI, t=userTime)
     else:
         exit()
 if __name__ == "__main__":
