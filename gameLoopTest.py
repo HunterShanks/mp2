@@ -7,6 +7,7 @@ class Game:
     ALPHABETA = 1
     HUMAN = 2
     AI = 3
+    LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
     def __init__(self):
         self.initialize_game()
@@ -99,25 +100,24 @@ class Game:
         # Player X always plays first
         self.player_turn = 'X'
 
-    # def player_input(self):
-        # hard coded - change
-        # self.current_state[3][1] = 'X'
-        # self.current_state[3][2] = 'X'
-        # self.current_state[3][3] = 'X'
-        # self.current_state[3][4] = 'X'
+    def is_valid(self, px, py):
+        if px < 0 or px > self.boardsize or py < 0 or py > self.boardsize:
+            return False
+        elif self.current_state[px][py] != '.' and self.current_state[px][py] != '*':
+            return False
+        else:
+            return True
 
-        # # HARD CODED TIE 3x3
-        # self.current_state[2][1] = 'O'
-        # self.current_state[2][2] = 'X'
-        # self.current_state[2][3] = 'O'
-        # self.current_state[3][1] = 'O'
-        # self.current_state[3][2] = 'X'
-        # self.current_state[3][3] = 'O'
-        # self.current_state[4][1] = 'X'
-        # self.current_state[4][2] = 'O'
-        # self.current_state[4][3] = 'X'
-
-
+    def player_input(self):
+        while True:
+            print(F'Player {self.player_turn}, enter your move:')
+            px = int(input('Enter the x coordinate (0 - '+ str(self.boardsize-1) + '): '))
+            strY = str(input('Enter the y-letter coordinate: '))
+            py = self.LETTERS.index(strY.upper())
+            if self.is_valid(px+2 , py+1):
+                return (px+2, py+1)
+            else:
+                print('The move is not valid! Try again.')
 
     def draw_board(self):
         print()
@@ -332,10 +332,10 @@ class Game:
 
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (
                     self.player_turn == 'O' and player_o == self.HUMAN):
-                (x, y) = self.input_move()
+                (x, y) = self.player_input()
             if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
                 print(F'Evaluation time: {round(end - start, 7)}s')
-                print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
+                print(F'Player {self.player_turn} under AI control plays: x = {x-2}, y = {self.LETTERS[y-1]}')
             self.current_state[x][y] = self.player_turn
             self.switch_player()
 
