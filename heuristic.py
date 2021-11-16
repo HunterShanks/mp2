@@ -204,7 +204,7 @@ def somefunc():
             # Uses the index of y and x to verify that both are placed in the same spot
             if index(boardValue[y][x]) == index(drawBoardTest.current_state[y][x]):
                 boardValue[y][x] = -2
-                return someshit #Tbh idk what we're returning
+                return something
 #
 # call skeleton-tictactoe.switch_player() -> not needed because we need to simply decide on a move,
 # and the next turn will flip within the tictactoe file automatically within the play function.
